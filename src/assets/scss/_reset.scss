@@ -1,0 +1,30 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+*{
+  margin: 0;
+	padding: 0;
+  box-sizing: border-box;
+}
+html {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+  font-family: "Open Sans", sans-serif;
+	overflow: hidden;
+}
+html, body {
+  font-family: 'Open Sans', sans-serif;
+}
+#app {
+  font-family: 'Open Sans', sans-serif;
+}
+::selection {
+  color: $white;
+  background: $rusty-orange;
+}
+::-moz-selection {
+  color: $white;
+  background: $rusty-orange;
+}
