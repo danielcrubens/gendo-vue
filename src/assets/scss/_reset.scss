@@ -4,6 +4,7 @@
   margin: 0;
 	padding: 0;
   box-sizing: border-box;
+  outline: none;
 }
 html {
 	margin: 0;
@@ -12,7 +13,7 @@ html {
 	font-size: 100%;
 	vertical-align: baseline;
   font-family: "Open Sans", sans-serif;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 html, body {
   font-family: 'Open Sans', sans-serif;

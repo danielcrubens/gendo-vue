@@ -6,8 +6,27 @@ $white:#FFFFFF;
 $pale-grey:#E1E4E8;
 $white-two:#E3E3E3;
 $slate-grey-two:#586069;
+$black:#24292e;
+$gray:#c1c1c1;
+$blue:#2c93d9;
 $font-24: 1.5rem;
 $font-18: 1.125rem;
+@mixin sm {
+  @media (max-width: 640px) {
+    @content;
+  }
+}
+@mixin md {
+  @media (min-width: 641px) and (max-width: 1024px) {
+    @content;
+  }
+}
+@mixin lg {
+  @media (min-width: 1024px)  {
+    @content;
+  }
+}
+
 
 
 
