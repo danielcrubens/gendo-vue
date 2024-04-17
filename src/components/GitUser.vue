@@ -3,63 +3,63 @@
     <main>
       <div class="grid">
         <div class="profile">
-          <img src="https://avatars.githubusercontent.com/u/52468589?v=4" alt="">
-          <div class="profile-text">
-            <h1>Daniel Rubens</h1>
-            <p>Front End and UI Designer</p>
+          <img :src="user.avatar_url" alt="Avatar">
+          <div class="profile__description">
+            <h1>{{ user.name }}</h1>
+            <p>{{ user.bio }}</p>
           </div>
         </div>
         <div>
           <div class="info">
-            <div class="tab">
+            <div class="info__tab">
+              <transition name="fade">
               <h2 @click="activeTab = 'repos'; activeLine = 'repos'"
                 :style="{ fontWeight: activeTab === 'repos' ? 'bold' : 'normal' }"
-                :class="{ 'active-line': activeLine === 'repos' }">Repos <span>73</span></h2>
+                :class="{ 'info__tab--active-line': activeLine === 'repos' }">Repos <span>{{ user.public_repos }}</span>
+              </h2>
+            </transition>
+              <transition name="fade">
               <h2 @click="activeTab = 'starred'; activeLine = 'starred'"
                 :style="{ fontWeight: activeTab === 'starred' ? 'bold' : 'normal' }"
-                :class="{ 'active-line': activeLine === 'starred' }">Starred <span>5</span></h2>
-
+                :class="{ 'info__tab--active-line': activeLine === 'starred' }">Starred <span>{{ user.starred_count
+                  }}</span></h2>
+              </transition>
             </div>
-            <div class="tab-responsive">
-              <div class="tab-responsive-item">
+            <div class="info__tab-responsive">
+              <div class="info__tab-responsive-item">
                 <h2 @click="activeTab = 'repos'; activeLine = 'repos'"
                   :style="{ fontWeight: activeTab === 'repos' ? 'bold' : 'normal' }"
-                  :class="{ 'active-line': activeLine === 'repos' }">Repos <span>13</span></h2>
+                  :class="{ 'info__tab--active-line': activeLine === 'repos' }">Repos <span>{{ user.public_repos
+                    }}</span></h2>
               </div>
-              <div class="tab-responsive-item">
+              <div class="info__tab-responsive-item">
                 <h2 @click="activeTab = 'starred'; activeLine = 'starred'"
                   :style="{ fontWeight: activeTab === 'starred' ? 'bold' : 'normal' }"
-                  :class="{ 'active-line': activeLine === 'starred' }">Starred <span>2</span></h2>
+                  :class="{ 'info__tab--active-line': activeLine === 'starred' }">Starred <span>2</span></h2>
               </div>
             </div>
-            <div class="input-icon">
+            <div class="info__input-icon">
               <Search />
-              <input type="text" placeholder="Filter by name">
+              <input type="text" placeholder="Filter by name" @input="handleSearchInput" @keydown.enter="searchUser">
             </div>
             <div v-if="activeTab === 'repos'">
-              <div class="info-user">
-                <h3>nodejs / Release</h3>
-                <p>Node.js Foundation Release Workin Group</p>
-                <div class="description">
-                  <Star /><span>1,00 </span>
-                  <Fork /><span>1,404 </span>
-                </div>
-              </div>
-              <div class="info-user">
-                <h3>nodejs / Release</h3>
-                <p>Node.js Foundation Release Workin Group</p>
-                <div class="description">
-                  <Star /><span>1,00 </span>
-                  <Fork /><span>1,404 </span>
+              <div class="info__user" v-for="repo in repos" :key="repo.id">
+                <h3>{{ repo.name }}</h3>
+                <p>{{ repo.description }}</p>
+                <div class="info__description">
+                  <Star /> <span> {{ repo.stargazers_count }}</span>
+                  <Fork /> <span> {{ repo.forks_count }}</span>
                 </div>
               </div>
             </div>
-            <div class="info-user" v-if="activeTab === 'starred'">
-              <h3>nodejsdddd / Release</h3>
-              <p>Node.js Foundation Release Workin Group</p>
-              <div class="description">
-                <Star /><span>1,00 </span>
-                <Fork /><span>1,404 </span>
+            <div v-if="activeTab === 'starred'">
+              <div class="info__user" v-for="repo in favoriteRepos" :key="repo.id">
+                <h3>{{ repo.name }}</h3>
+                <p>{{ repo.description }}</p>
+                <div class="info__description">
+                  <Star /> <span> {{ repo.stargazers_count }}</span>
+                  <Fork /> <span> {{ repo.forks_count }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -72,6 +72,13 @@
 </template>
 
 <style lang="scss" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
+}
 .grid {
   @include md {
     grid-template-columns: 1fr;
@@ -124,7 +131,7 @@
     justify-content: flex-start;
     align-items: center;
 
-    .profile-text {
+    .profile__description {
       @include sm {
         text-align: start;
         line-height: 1.3;
@@ -150,7 +157,7 @@
   }
 
   .info {
-    .tab {
+    .info__tab {
       @include sm {
         display: none;
       }
@@ -181,7 +188,7 @@
         border-radius: 5rem;
       }
 
-      .active-line {
+      .info__tab--active-line {
         position: relative;
 
         &:after {
@@ -196,7 +203,7 @@
       }
     }
 
-    .tab-responsive {
+    .info__tab-responsive {
       @include md {
         display: none;
       }
@@ -213,7 +220,7 @@
       justify-items: center;
       align-items: center;
 
-      .active-line {
+      .info__tab--active-line {
         position: relative;
 
         &:after {
@@ -227,7 +234,7 @@
         }
       }
 
-      .tab-responsive-item {
+      .info__tab-responsive-item {
 
         display: flex;
         align-items: center;
@@ -238,6 +245,7 @@
           font-size: $font-18;
           color: $slate-grey;
           font-weight: normal;
+          cursor:pointer;
         }
 
         span {
@@ -246,12 +254,12 @@
           background: $white-two;
           padding: 0.2rem 0.6rem;
           border-radius: 5rem;
-          font-size:0.875rem;
+          font-size: 0.875rem;
         }
       }
     }
 
-    .input-icon {
+    .info__input-icon {
       @include md {
         padding: 0;
       }
@@ -296,8 +304,8 @@
       }
     }
 
-    .info-user {
-    
+    .info__user {
+
       @include sm {
         padding: 1rem 1rem;
       }
@@ -306,7 +314,7 @@
 
       h3 {
         color: $blue;
-        font-weight: normal;
+        font-weight: bold;
         font-size: $font-18;
       }
 
@@ -316,7 +324,7 @@
         color: $slate-grey-two;
       }
 
-      .description {
+      .info__description {
         font-size: 14px;
         color: $slate-grey-two;
         display: flex;
@@ -324,13 +332,14 @@
         gap: 0.5rem;
         border-bottom: .11rem solid $pale-grey;
         padding: 0 0 1.5rem;
-        span{
-        
-          &:first-of-type{
+
+        span {
+
+          &:first-of-type {
             padding-right: 1rem;
           }
         }
-        
+
       }
     }
   }
@@ -342,9 +351,70 @@ import Star from './icons/Star.vue';
 import Fork from './icons/Fork.vue';
 import Search from './icons/Search.vue';
 
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const activeTab = ref('repos');
 const activeLine = ref('repos');
 
+const user = ref({});
+const repos = ref([]);
+const favoriteRepos = ref([]);
+const username = 'octocat';
+
+onMounted(async () => {
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}`);
+    user.value = await response.json();
+
+    const reposResponse = await fetch(user.value.repos_url);
+    repos.value = await reposResponse.json();
+
+    const starredResponse = await fetch(user.value.starred_url.replace('{/owner}{/repo}', ''));
+    favoriteRepos.value = await starredResponse.json();
+
+    user.value.starred_count = favoriteRepos.value.length;
+  } catch (error) {
+    console.error('Erro ao obter os dados do usuário:', error);
+  }
+});
+
+const searchUser = async (event) => {
+  if (event.key === 'Enter') {
+    const username = event.target.value.trim();
+    try {
+      const response = await fetch(`https://api.github.com/users/${username}`);
+      user.value = await response.json();
+
+      const reposResponse = await fetch(user.value.repos_url);
+      repos.value = await reposResponse.json();
+
+      const starredResponse = await fetch(user.value.starred_url.replace('{/owner}{/repo}', ''));
+      favoriteRepos.value = await starredResponse.json();
+
+      user.value.starred_count = favoriteRepos.value.length;
+    } catch (error) {
+      console.error('Erro ao obter os dados do usuário:', error);
+    }
+  }
+};
+
+const handleSearchInput = async (event) => {
+  const username = event.target.value.trim();
+  if (username === '') {
+    try {
+      const response = await fetch(`https://api.github.com/users/octocat`);
+      user.value = await response.json();
+
+      const reposResponse = await fetch(user.value.repos_url);
+      repos.value = await reposResponse.json();
+
+      const starredResponse = await fetch(user.value.starred_url.replace('{/owner}{/repo}', ''));
+      favoriteRepos.value = await starredResponse.json();
+
+      user.value.starred_count = favoriteRepos.value.length;
+    } catch (error) {
+      console.error('Erro ao obter os dados do usuário:', error);
+    }
+  }
+};
 </script>
