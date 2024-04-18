@@ -5,37 +5,39 @@
         <div class="profile">
           <img :src="user.avatar_url" alt="Avatar">
           <div class="profile__description">
-            <h1>{{ user.name }}</h1>
+            <h1 >{{ user.name }}</h1>
             <p>{{ user.bio }}</p>
           </div>
         </div>
         <div>
           <div class="info">
             <div class="info__tab">
-              <transition name="fade">
-              <h2 @click="activeTab = 'repos'; activeLine = 'repos'"
-                :style="{ fontWeight: activeTab === 'repos' ? 'bold' : 'normal' }"
-                :class="{ 'info__tab--active-line': activeLine === 'repos' }">Repos <span>{{ user.public_repos }}</span>
-              </h2>
-            </transition>
-              <transition name="fade">
-              <h2 @click="activeTab = 'starred'; activeLine = 'starred'"
-                :style="{ fontWeight: activeTab === 'starred' ? 'bold' : 'normal' }"
-                :class="{ 'info__tab--active-line': activeLine === 'starred' }">Starred <span>{{ user.starred_count
-                  }}</span></h2>
-              </transition>
+                <h2 @click="activeTab = 'repos'; activeLine = 'repos'"
+                  :style="{ fontWeight: activeTab === 'repos' ? 'bold' : 'normal' }"
+                  :class="{ 'info__tab--active-line': activeLine === 'repos' }" data-test="repos-tab">
+                  Repos <span>{{ user.public_repos }}</span>
+                </h2>
+                <h2 @click="activeTab = 'starred'; activeLine = 'starred'"
+                  :style="{ fontWeight: activeTab === 'starred' ? 'bold' : 'normal' }"
+                  :class="{ 'info__tab--active-line': activeLine === 'starred' }" data-test="starred-tab">
+                  Starred <span>{{ user.starred_count }}</span>
+                </h2>
             </div>
             <div class="info__tab-responsive">
               <div class="info__tab-responsive-item">
                 <h2 @click="activeTab = 'repos'; activeLine = 'repos'"
                   :style="{ fontWeight: activeTab === 'repos' ? 'bold' : 'normal' }"
-                  :class="{ 'info__tab--active-line': activeLine === 'repos' }">Repos <span>{{ user.public_repos
-                    }}</span></h2>
+                  :class="{ 'info__tab--active-line': activeLine === 'repos' }" data-test="repos-tab-responsive">
+                  Repos <span>{{ user.public_repos }}</span>
+                </h2>
               </div>
               <div class="info__tab-responsive-item">
                 <h2 @click="activeTab = 'starred'; activeLine = 'starred'"
                   :style="{ fontWeight: activeTab === 'starred' ? 'bold' : 'normal' }"
-                  :class="{ 'info__tab--active-line': activeLine === 'starred' }">Starred <span>2</span></h2>
+                  :class="{ 'info__tab--active-line': activeLine === 'starred' }" data-test="starred-tab-responsive">
+                  Starred <span>{{ user.starred_count
+                  }}</span>
+                </h2>
               </div>
             </div>
             <div class="info__input-icon">
@@ -47,8 +49,8 @@
                 <h3>{{ repo.name }}</h3>
                 <p>{{ repo.description }}</p>
                 <div class="info__description">
-                  <Star /> <span> {{ repo.stargazers_count }}</span>
-                  <Fork /> <span> {{ repo.forks_count }}</span>
+                  <Star /> <span>{{ repo.stargazers_count }}</span>
+                  <Fork /> <span>{{ repo.forks_count }}</span>
                 </div>
               </div>
             </div>
@@ -57,28 +59,21 @@
                 <h3>{{ repo.name }}</h3>
                 <p>{{ repo.description }}</p>
                 <div class="info__description">
-                  <Star /> <span> {{ repo.stargazers_count }}</span>
-                  <Fork /> <span> {{ repo.forks_count }}</span>
+                  <Star /> <span>{{ repo.stargazers_count }}</span>
+                  <Fork /> <span>{{ repo.forks_count }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div>
-      </div>
+      <div></div>
     </main>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
-}
 
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-  opacity: 0;
-}
 .grid {
   @include md {
     grid-template-columns: 1fr;
@@ -245,7 +240,7 @@
           font-size: $font-18;
           color: $slate-grey;
           font-weight: normal;
-          cursor:pointer;
+          cursor: pointer;
         }
 
         span {
