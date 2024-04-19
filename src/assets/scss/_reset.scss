@@ -29,3 +29,25 @@ html, body {
   color: $white;
   background: $rusty-orange;
 }
+h1{
+  color: $black;
+}
+h2{
+  color: $slate-grey;
+}
+p {
+  color: $slate-grey-two;
+}
+svg {
+  height: 1.2rem;
+}
+[theme="dark"] {
+  background: $black;
+ h1, h2, h3, p,span,svg{
+  color:$white;
+ }
+
+}
+[theme="light"]{
+  background:$white;
+}

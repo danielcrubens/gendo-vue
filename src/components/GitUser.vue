@@ -5,23 +5,23 @@
         <div class="profile">
           <img :src="user.avatar_url" alt="Avatar">
           <div class="profile__description">
-            <h1 >{{ user.name }}</h1>
+            <h1>{{ user.name }}</h1>
             <p>{{ user.bio }}</p>
           </div>
         </div>
         <div>
           <div class="info">
             <div class="info__tab">
-                <h2 @click="activeTab = 'repos'; activeLine = 'repos'"
-                  :style="{ fontWeight: activeTab === 'repos' ? 'bold' : 'normal' }"
-                  :class="{ 'info__tab--active-line': activeLine === 'repos' }" data-test="repos-tab">
-                  Repos <span>{{ user.public_repos }}</span>
-                </h2>
-                <h2 @click="activeTab = 'starred'; activeLine = 'starred'"
-                  :style="{ fontWeight: activeTab === 'starred' ? 'bold' : 'normal' }"
-                  :class="{ 'info__tab--active-line': activeLine === 'starred' }" data-test="starred-tab">
-                  Starred <span>{{ user.starred_count }}</span>
-                </h2>
+              <h2 @click="activeTab = 'repos'; activeLine = 'repos'"
+                :style="{ fontWeight: activeTab === 'repos' ? 'bold' : 'normal' }"
+                :class="{ 'info__tab--active-line': activeLine === 'repos' }" data-test="repos-tab">
+                Repos <span>{{ user.public_repos }}</span>
+              </h2>
+              <h2 @click="activeTab = 'starred'; activeLine = 'starred'"
+                :style="{ fontWeight: activeTab === 'starred' ? 'bold' : 'normal' }"
+                :class="{ 'info__tab--active-line': activeLine === 'starred' }" data-test="starred-tab">
+                Starred <span>{{ user.starred_count }}</span>
+              </h2>
             </div>
             <div class="info__tab-responsive">
               <div class="info__tab-responsive-item">
@@ -36,7 +36,7 @@
                   :style="{ fontWeight: activeTab === 'starred' ? 'bold' : 'normal' }"
                   :class="{ 'info__tab--active-line': activeLine === 'starred' }" data-test="starred-tab-responsive">
                   Starred <span>{{ user.starred_count
-                  }}</span>
+                    }}</span>
                 </h2>
               </div>
             </div>
@@ -59,21 +59,20 @@
                 <h3>{{ repo.name }}</h3>
                 <p>{{ repo.description }}</p>
                 <div class="info__description">
-                  <Star /> <span>{{ repo.stargazers_count }}</span>
+                  <Code /> <span>{{ repo.language }}</span>
                   <Fork /> <span>{{ repo.forks_count }}</span>
+                  <!--  <span>{{ repo.language }}</span> -->
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div></div>
     </main>
   </div>
 </template>
 
 <style lang="scss" scoped>
-
 .grid {
   @include md {
     grid-template-columns: 1fr;
@@ -142,12 +141,9 @@
 
       h1 {
         font-size: $font-24;
-        color: $black;
       }
 
-      p {
-        color: $slate-grey-two;
-      }
+
     }
   }
 
@@ -170,8 +166,13 @@
 
       h2 {
         font-size: $font-18;
-        color: $slate-grey;
         font-weight: normal;
+
+        &:hover {
+          transition: opacity 0.2s ease;
+          opacity: 0.8;
+        }
+
         cursor: pointer;
       }
 
@@ -192,7 +193,7 @@
           bottom: -1.1rem;
           left: -1rem;
           width: 130%;
-          height: 0.188rem;
+          height: 0.288rem;
           background-color: $rusty-orange;
         }
       }
@@ -221,10 +222,10 @@
         &:after {
           content: '';
           position: absolute;
-          bottom: -1.1rem;
+          bottom: -1.6rem;
           left: 0rem;
           width: 100%;
-          height: 0.188rem;
+          height: 0.288rem;
           background-color: $rusty-orange;
         }
       }
@@ -259,9 +260,12 @@
         padding: 0;
       }
 
+      @include sm {
+        padding: 0 1rem;
+      }
+
       position: relative;
       margin: 2.5rem 0 1rem 0;
-      padding: 0 1rem;
 
       .icon {
         @include sm {
@@ -280,6 +284,10 @@
 
       svg {
         color: $gray;
+        position: absolute;
+        left: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
 
@@ -316,7 +324,7 @@
       p {
         font-size: 14px;
         padding: 1rem 0;
-        color: $slate-grey-two;
+
       }
 
       .info__description {
@@ -345,6 +353,7 @@
 import Star from './icons/Star.vue';
 import Fork from './icons/Fork.vue';
 import Search from './icons/Search.vue';
+import Code from './icons/Code.vue';
 
 import { ref, onMounted } from 'vue';
 

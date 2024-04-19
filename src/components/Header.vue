@@ -2,14 +2,17 @@
   <header>
     <GitHub/>
     <span>GitHub</span> <span> profiles</span>
+    <Dark/>
   </header>
 </template>
 
 <script setup lang="ts">
+import Dark from '@/components/Dark.vue';
 import GitHub from './icons/GitHub.vue';
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped >
+
 header{
 background: $black;
 padding: .9rem 2rem;

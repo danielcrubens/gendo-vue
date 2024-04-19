@@ -4,7 +4,7 @@ import GitUser from '../GitUser.vue';
 
 
 describe('GitUser', () => {
-  it('renders properly', async () => {
+  it('Renderiza o compomente corretamente', async () => {
     const wrapper = mount(GitUser);
     expect(wrapper.exists()).toBe(true);
   });
